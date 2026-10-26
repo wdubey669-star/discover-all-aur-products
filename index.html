@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YallaCompare — Advanced Products & Insurance Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #d80082;
+  --pink2: #ef0b98;
+  --cyan: #35c8d8;
+  --pale: #f0f9ff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --green: #10b981;
+  --border: #cbd5e1;
+  --bg: #ffffff;
+  --card-bg: #ffffff;
+  --shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --pink: #ff2a9d;
+  --pink2: #ff4bb3;
+  --cyan: #38ef7d;
+  --pale: #0f172a;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --green: #34d399;
+  --border: #334155;
+  --bg: #090d16;
+  --card-bg: #111827;
+  --shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); transition: background 0.4s ease, color 0.4s ease; }
+button, input { font: inherit; }
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
+body.lock { overflow: hidden; }
+
+/* Topbar */
+.topbar { height: 90px; background: var(--card-bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 5%; position: sticky; top: 0; z-index: 90; backdrop-filter: blur(12px); transition: var(--transition); }
+.logo { display: inline-flex; align-items: baseline; gap: 2px; }
+.logo b { font-size: 28px; letter-spacing: -1px; color: var(--pink); }
+.logo span { font-size: 14px; color: var(--cyan); font-weight: 800; }
+.logo small { display: block; font-size: 7px; color: var(--muted); letter-spacing: .5px; }
+.topbar-actions { display: flex; align-items: center; gap: 15px; }
+.theme-toggle, .menu-circle { width: 44px; height: 44px; border: 1px solid var(--border); background: var(--card-bg); border-radius: 50%; display: grid; place-items: center; color: var(--text); font-size: 18px; transition: var(--transition); box-shadow: var(--shadow); }
+.theme-toggle:hover, .menu-circle:hover { border-color: var(--pink); color: var(--pink); transform: rotate(15deg) scale(1.08); }
+
+/* Hero Section */
+.hero { height: 520px; position: relative; display: grid; place-items: center; text-align: center; color: #fff; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: 
+  linear-gradient(135deg, rgba(30, 27, 75, 0.82) 0%, rgba(112, 0, 78, 0.75) 60%, rgba(12, 74, 110, 0.85) 100%),
+  url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1900&q=85") center/cover no-repeat; 
+  background-size: cover; transform: scale(1.03); animation: heroZoom 15s infinite alternate; }
+@keyframes heroZoom { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+.hero-content { position: relative; z-index: 2; padding: 0 20px; animation: fadeInUp 1s ease-out; }
+.hero-icons { display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; }
+.hero-icon { width: 68px; height: 68px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.15); font-size: 28px; backdrop-filter: blur(8px); animation: floatIcon 4s ease-in-out infinite; }
+.hero-icon:nth-child(2) { animation-delay: 1s; }
+.hero-icon:nth-child(3) { animation-delay: 2s; }
+@keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.hero h1 { font-size: 48px; font-weight: 800; margin: 0 0 12px; letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+.hero p { font-size: 17px; margin: 0; opacity: 0.95; font-weight: 400; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+
+/* Sections & Product Grid */
+.section { padding: 70px 5%; background: linear-gradient(135deg, rgba(53,200,216,0.06) 0%, rgba(216,0,130,0.06) 50%, rgba(112,0,78,0.04) 100%); }
+.section.soft { background: var(--pale); }
+.section-head { text-align: center; margin-bottom: 45px; }
+.section-head h2 { font-size: 30px; font-weight: 700; margin: 0; position: relative; display: inline-block; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.section-head h2::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: var(--pink); border-radius: 2px; }
+
+.product-grid { max-width: 1350px; margin: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 28px; }
+
+/* Card Styles */
+.card { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 35px 22px 25px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 440px; box-shadow: var(--shadow); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); opacity: 0; transform: translateY(35px); }
+.card.visible { opacity: 1; transform: translateY(0); }
+.card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 35px 65px rgba(216, 0, 130, 0.18); border-color: var(--pink); }
+
+.card-fav { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border: 1px solid var(--border); background: var(--card-bg); color: var(--muted); font-size: 16px; border-radius: 50%; display: grid; place-items: center; transition: var(--transition); cursor: pointer; }
+.card-fav:hover, .card-fav.on { background: var(--pink); color: #fff; border-color: var(--pink); transform: scale(1.15); }
+
+.card-compare { position: absolute; top: 16px; left: 16px; font-size: 11px; background: var(--pale); padding: 5px 10px; border-radius: 10px; color: var(--text); display: flex; align-items: center; gap: 5px; cursor: pointer; border: 1px solid var(--border); font-weight: 600; }
+.card-compare input { cursor: pointer; accent-color: var(--pink); }
+
+.icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, rgba(53,200,216,0.15), rgba(216,0,130,0.15)); display: grid; place-items: center; margin: 10px auto 18px; color: var(--pink); font-size: 32px; transition: var(--transition); box-shadow: inset 0 0 0 1px rgba(216,0,130,0.1); }
+.card:hover .icon { transform: rotateY(360deg) scale(1.05); background: var(--pink); color: #fff; }
+
+.card-badge { font-size: 10px; letter-spacing: 1.2px; color: var(--pink); background: rgba(216,0,130,0.12); border-radius: 20px; padding: 5px 14px; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; }
+.card h3 { font-size: 17px; line-height: 1.4; text-transform: uppercase; margin: 0 0 12px; font-weight: 700; min-height: 48px; display: flex; align-items: center; justify-content: center; }
+.card p { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0 0 22px; flex-grow: 1; min-height: 44px; }
+
+.card-meta { width: 100%; display: flex; justify-content: space-around; color: var(--muted); font-size: 11.5px; margin-bottom: 22px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 10px 0; font-weight: 600; }
+
+.card-actions { width: 100%; display: flex; gap: 12px; margin-top: auto; }
+.quick-view, .buy { flex: 1; padding: 11px; border-radius: 25px; font-size: 11.5px; font-weight: 700; transition: var(--transition); text-align: center; }
+.quick-view { border: 1px solid var(--border); background: var(--card-bg); color: var(--text); }
+.quick-view:hover { border-color: var(--pink); color: var(--pink); background: rgba(216,0,130,0.06); }
+.buy { background: linear-gradient(135deg, var(--pink), var(--pink2)); color: #fff; box-shadow: 0 6px 20px rgba(216,0,130,0.35); }
+.buy:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(216,0,130,0.5); }
+
+/* Compare Tray Bar */
+.compare-tray { position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 2px solid var(--pink); padding: 18px 35px; border-radius: 30px 30px 0 0; z-index: 100; box-shadow: 0 -15px 40px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 25px; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: min(650px, 95vw); }
+.compare-tray.show { bottom: 0; }
+.compare-tray p { margin: 0; font-size: 14px; font-weight: 700; }
+.compare-btn { background: var(--pink); color: #fff; padding: 10px 22px; border-radius: 20px; font-size: 12px; font-weight: 700; transition: var(--transition); }
+.compare-btn:hover { background: var(--pink2); transform: scale(1.05); }
+
+/* Progress & Floating Elements */
+.progress { position: fixed; left: 0; top: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--pink), var(--cyan)); z-index: 200; transition: width 0.1s linear; }
+.floating { position: fixed; right: 28px; bottom: 28px; z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: flex-end; }
+.expert { border: none; background: var(--green); color: #fff; border-radius: 30px; padding: 13px 22px; font-size: 12.5px; font-weight: 700; box-shadow: 0 8px 25px rgba(16,185,129,0.35); display: flex; align-items: center; gap: 8px; transition: var(--transition); }
+.expert:hover { transform: scale(1.06); }
+.chat { width: 52px; height: 52px; border: none; border-radius: 50%; background: var(--pink); color: #fff; font-size: 22px; box-shadow: 0 8px 25px rgba(216,0,130,0.4); display: grid; place-items: center; transition: var(--transition); }
+.chat:hover { transform: scale(1.12) rotate(12deg); }
+
+/* Main Footer */
+.footer { background: var(--card-bg); border-top: 1px solid var(--border); padding: 70px 5% 35px; transition: var(--transition); }
+.footer-grid { max-width: 1350px; margin: auto; display: grid; grid-template-columns: 2fr repeat(4, 1fr); gap: 35px; }
+.footer h4 { margin: 0 0 16px; color: var(--pink); font-size: 12.5px; text-transform: uppercase; letter-spacing: 1px; }
+.footer p, .footer a { font-size: 13.5px; color: var(--muted); line-height: 1.85; }
+.footer a:hover { color: var(--pink); padding-left: 6px; }
+.phone { font-weight: 700; color: var(--text)!important; margin-top: 16px; display: block; font-size: 17px; }
+.apps { display: flex; gap: 10px; margin-top: 16px; }
+.app { background: #111; color: #fff !important; border-radius: 8px; padding: 9px 15px; font-size: 11.5px !important; font-weight: 600; }
+.copyright { max-width: 1350px; margin: 45px auto 0; border-top: 1px solid var(--border); padding-top: 22px; text-align: center; color: var(--muted); font-size: 12.5px; }
+
+/* Exact Video Disclaimer Footer Added Here with Full Details */
+.video-disclaimer { background: var(--pale); padding: 50px 5%; color: var(--muted); font-size: 13px; line-height: 1.8; border-top: 1px solid var(--border); transition: var(--transition); }
+.video-disclaimer-content { max-width: 1350px; margin: auto; }
+.video-disclaimer p { margin: 0 0 18px 0; }
+.disclaimer-bold { font-weight: 700; color: var(--text); }
+.regulatory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border); }
+.reg-column { display: flex; flex-direction: column; gap: 6px; }
+.reg-title { font-weight: 700; color: var(--text); font-size: 13.5px; }
+.dubai-brand { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 4px; }
+.dubai-brand span { display: block; font-size: 10px; font-weight: 500; color: var(--muted); }
+
+/* Modals & Drawers */
+.drawer-back, .modal-back { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); z-index: 150; display: none; opacity: 0; transition: opacity 0.35s ease; }
+.drawer-back.show, .modal-back.show { display: block; opacity: 1; }
+.drawer { position: absolute; right: 0; top: 0; height: 100%; width: min(420px, 92vw); background: var(--card-bg); padding: 35px; box-shadow: -25px 0 60px rgba(0,0,0,0.35); overflow-y: auto; transition: transform 0.35s ease; }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.drawer h2 { font-size: 22px; margin: 0; }
+.x { border: none; background: none; font-size: 30px; color: var(--muted); cursor: pointer; transition: var(--transition); }
+.x:hover { color: var(--pink); transform: rotate(90deg); }
+
+.search { display: flex; border: 1px solid var(--border); border-radius: 30px; overflow: hidden; margin-bottom: 22px; background: var(--bg); }
+.search input { border: none; outline: none; padding: 13px 20px; flex: 1; font-size: 13.5px; background: transparent; color: var(--text); }
+.search button { border: none; background: var(--pink); color: #fff; width: 52px; font-size: 16px; }
+
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.filter { border: 1px solid var(--border); background: var(--card-bg); color: var(--text); border-radius: 20px; padding: 9px 18px; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+.filter.on, .filter:hover { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+.drawer-link { display: block; padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 14.5px; font-weight: 500; transition: var(--transition); }
+.drawer-link:hover { color: var(--pink); padding-left: 10px; }
+
+.modal-back { display: none; align-items: center; justify-content: center; }
+.modal-back.show { display: flex; }
+.modal { width: min(500px, 92vw); background: var(--card-bg); border-radius: 22px; padding: 40px; position: relative; box-shadow: var(--shadow); animation: scaleUp 0.35s cubic-bezier(0.165, 0.84, 0.44, 1); }
+@keyframes scaleUp { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal h2 { margin: 0 0 10px; font-size: 24px; }
+.modal p { margin: 0 0 22px; font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+.form input, .form textarea { width: 100%; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 12px; padding: 13px 16px; margin-bottom: 14px; outline: none; font-size: 13.5px; transition: var(--transition); }
+.form input:focus, .form textarea:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(216,0,130,0.15); }
+.form textarea { height: 100px; resize: vertical; }
+.form button { width: 100%; border: none; background: linear-gradient(135deg, var(--pink), var(--pink2)); color: #fff; border-radius: 25px; padding: 13px; font-weight: 700; font-size: 14px; transition: var(--transition); box-shadow: 0 6px 20px rgba(216,0,130,0.35); }
+.form button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(216,0,130,0.5); }
+
+.toast { position: fixed; left: 50%; bottom: 32px; z-index: 250; background: #0f172a; color: #fff; padding: 13px 26px; border-radius: 30px; font-size: 12.5px; font-weight: 600; transform: translate(-50%, 100px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 12px 30px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+.toast.show { transform: translate(-50%, 0); }
+
+@media(max-width: 900px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 36px; }
+}
+@media(max-width: 560px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .product-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <a class="logo-wrap" href="#top" aria-label="YallaCompare">
+    <span class="logo"><b>yalla</b><span>Compare</span></span>
+    <small>A Wafa Group company</small>
+  </a>
+  <div class="topbar-actions">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">🌙</button>
+    <button class="menu-circle" id="menuBtn" aria-label="Open menu">≡</button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-icons">
+      <span class="hero-icon">✈</span>
+      <span class="hero-icon">🛡</span>
+      <span class="hero-icon">⌂</span>
+    </div>
+    <h1>Our Products & Services</h1>
+    <p>Protecting what matters most with advanced digital comparison</p>
+  </div>
+</section>
+
+<div id="products"></div>
+
+<div class="compare-tray" id="compareTray">
+  <p id="compareText">0 products selected for comparison</p>
+  <button class="compare-btn" id="compareAction">Compare Now</button>
+</div>
+
+<footer class="footer" id="footer">
+ <div class="footer-grid">
+  <div>
+    <div class="logo"><b>yalla</b><span>Compare</span></div>
+    <p>YallaCompare is the leading finance comparison site in the UAE, Dubai, and Middle East.</p>
+    <p>YallaCompare, United Arab Emirates (UAE)</p>
+    <span class="phone">+971 45 622 100</span>
+    <div class="apps"><span class="app"> App Store</span><span class="app">▶ Google Play</span></div>
+  </div>
+  <div><h4>Quick Links</h4><a href="#top">Home</a><br><a href="#products">Products</a><br><a href="#">About Us</a><br><a href="#">Terms & Conditions</a><br><a href="#">Privacy Policy</a></div>
+  <div><h4>Finance Products</h4><a href="#">Credit Cards</a><br><a href="#">Personal Loans</a><br><a href="#">Bank Accounts</a><br><a href="#">Guide to Investing</a></div>
+  <div><h4>Insurance</h4><a href="#">Car Insurance</a><br><a href="#">Health Insurance</a><br><a href="#">Travel Insurance</a><br><a href="#">Life Insurance</a><br><a href="#">Home Insurance</a></div>
+  <div><h4>Tools</h4><a href="#">Car Loan Calculator</a><br><a href="#">Mortgage Calculator</a><br><a href="#">Currency Converter</a></div>
+ </div>
+ <div class="copyright">© 2026 YallaCompare. All rights reserved. Advanced Edition.</div>
+</footer>
+
+<!-- Complete Video Disclaimer Footer Added Here -->
+<section class="video-disclaimer">
+  <div class="video-disclaimer-content">
+    <p class="disclaimer-bold">YallaCompare, United Arab Emirates</p>
+    <p>Information found on YallaCompare is provided for illustrative purposes only, rates are subject to change based on your personal circumstances.</p>
+    <p>You should always speak to a trained professional before taking out any form of finance.</p>
+    <p>Implications of non-payment: If you fail to keep up with repayments on your finance, your bank may file a report with the UAE credit rating agency which may impact your ability to borrow from UAE banks in the future.</p>
+    <p class="disclaimer-bold">YOUR HOME MAY BE REPOSSESSED IF YOU DO NOT KEEP UP REPAYMENTS ON A MORTGAGE, LOAN OR ANY OTHER DEBT SECURED ON IT.</p>
+    <p>Insurance is provided by YallaCompare Insurance Broker LLC (formerly Gulf Resources Insurance Management Services Limited).</p>
+
+    <div class="regulatory-grid">
+      <div class="reg-column">
+        <span class="reg-title">UAE – Federal Level</span>
+        <span style="font-size:12.5px; color:var(--muted);">Licensed and regulated by the</span>
+        <span class="reg-title">Central Bank of the UAE | Registration No. 20</span>
+      </div>
+      <div class="reg-column">
+        <div class="dubai-brand">DUBAI <span>Department of Economy & Tourism</span></div>
+        <span style="font-size:12.5px; color:var(--muted);">Dubai - Head Office</span>
+        <span style="font-size:12.5px; color:var(--muted);">Trade License issued by Department of Economy & Tourism in Dubai</span>
+        <span class="reg-title">Licence No. 235006</span>
+        <span style="font-size:12.5px; color:var(--muted); margin-top:4px;">Health Insurance Intermediary Permit issued by Dubai Health Authority ID:</span>
+        <span class="reg-title">BRK-00045</span>
+        <span style="font-size:12.5px; color:var(--muted); margin-top:4px;">Member of the Emirates Insurance Federation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="floating">
+  <button class="expert" id="expert">📞 Talk to an expert</button>
+  <button class="chat" id="chat">💬</button>
+</div>
+
+<div class="drawer-back" id="drawerBack">
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h2>Explore Menu</h2>
+      <button class="x" id="drawerClose">×</button>
+    </div>
+    <div class="search">
+      <input id="search" placeholder="Search products...">
+      <button id="searchBtn">🔍</button>
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter on" data-filter="all">All Products</button>
+      <button class="filter" data-filter="health">Health</button>
+      <button class="filter" data-filter="motor">Motor</button>
+      <button class="filter" data-filter="group">Group</button>
+      <button class="filter" data-filter="business">Business</button>
+    </div>
+    <a class="drawer-link" href="#top">Home Dashboard</a>
+    <a class="drawer-link" href="#products">All Insurance & Finance</a>
+    <a class="drawer-link" href="#footer">Contact Support</a>
+  </aside>
+</div>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <button class="x" id="modalClose" style="position:absolute;right:20px;top:20px">×</button>
+    <h2 id="modalTitle">Talk to an expert</h2>
+    <p id="modalDesc">Tell us what you need and our team will contact you instantly.</p>
+    <form class="form" id="form">
+      <input required placeholder="Your Full Name">
+      <input required placeholder="Phone Number" type="tel">
+      <input placeholder="Email Address" type="email">
+      <textarea placeholder="How can we help you?"></textarea>
+      <button type="submit">Submit Request</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast">Action completed successfully!</div>
+
+<script>
+const data = [
+  ["health","Health Insurance","Comprehensive health insurance tailored for you","♡"],
+  ["health","International Private Medical Insurance","International medical insurance solutions tailored to your needs","▣"],
+  ["health","Travel Insurance","Travel insurance simple and convenient","✈"],
+  ["health","Life Insurance","Secure your loved ones with life insurance tailored to your needs","🛡"],
+  ["motor","Car Insurance","Full car insurance protection for your peace of mind","🚗"],
+  ["motor","Bike Insurance","Ride on, insure with confidence","🏍"],
+  ["motor","Bicycle Insurance","Your bicycle, insured","🚲"],
+  ["motor","Jet Ski Insurance","Your Jet Ski, insured","♨"],
+  ["motor","Boat Insurance","Enjoy the waves, insured","⚓"],
+  ["motor","Medical Malpractice","Save lives, insured","♧"],
+  ["motor","Pet Insurance","Unique pet insurance in the UAE","🐾"],
+  ["motor","Home Insurance","Home insurance in the UAE. Contents & more","⌂"],
+  ["business","Drone Insurance","Fly with full protection","✈"],
+  ["business","Contractors All Risk Insurance","Secure every construction site","♢"],
+  ["business","Event Insurance","Protect every event, big or small","▣"],
+  ["business","Trade Credit Insurance","Protect your cash flow","♨"],
+  ["business","Involuntary Loss of Employment","Job loss, protected","⚙"],
+  ["business","Savings Insurance","Save, grow, protect","▥"],
+  ["business","Political Violence Insurance","Protection against political risks","▣"],
+  ["business","Cyber Security Insurance","Secure your digital business","🔒"],
+  ["group","Group Health Insurance","Teams covered, always","♧"],
+  ["group","Life Insurance","Protect your teams for the future","☂"],
+  ["group","Medical Malpractice","Protect your healthcare team","♨"],
+  ["group","Marine Cargo Insurance","Ship with confidence","⚓"],
+  ["business","Business Insurance","Comprehensive business insurance","✣"]
+];
+
+const groups = { health: "Health Insurance Plans", motor: "Motor & Vehicle Insurance", group: "Group Insurance Solutions", business: "Business & Corporate Insurance" };
+const products = document.getElementById("products");
+
+for (const [cat, name, desc, icon] of data) {
+  if (!document.querySelector(`[data-section="${cat}"]`)) {
+    const s = document.createElement("section");
+    s.className = "section soft";
+    s.dataset.section = cat;
+    s.innerHTML = `<div class="section-head"><h2>${groups[cat]}</h2></div><div class="product-grid"></div>`;
+    products.appendChild(s);
+  }
+  const grid = document.querySelector(`[data-section="${cat}"] .product-grid`);
+  const card = document.createElement("article");
+  card.className = "card";
+  card.dataset.category = cat;
+  card.dataset.name = name.toLowerCase();
+  card.innerHTML = `
+    <label class="card-compare" title="Select to compare">
+      <input type="checkbox" class="compare-checkbox" data-name="${name}"> Compare
+    </label>
+    <button class="card-fav" aria-label="Favorite" title="Add to favorites">♡</button>
+    <div class="icon">${icon}</div>
+    <div class="card-badge">POPULAR</div>
+    <h3>${name}</h3>
+    <p>${desc}</p>
+    <div class="card-meta">
+      <span>✓ Instant Quote</span>
+      <span>★ 4.9/5</span>
+    </div>
+    <div class="card-actions">
+      <button class="quick-view" data-name="${name}" data-desc="${desc}">DETAILS</button>
+      <button class="buy" data-name="${name}">APPLY NOW</button>
+    </div>`;
+  grid.appendChild(card);
+}
+
+// Dark/Light Mode Toggle
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.onclick = () => {
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  themeToggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
+  showToast(`Switched to ${newTheme} mode`);
+};
+
+// Drawer & Modal Logic
+const drawerBack = document.getElementById("drawerBack"), modalBack = document.getElementById("modalBack"), toast = document.getElementById("toast");
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2500);
+}
+function openModal(title, desc) {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalDesc").textContent = desc;
+  modalBack.classList.add("show");
+  document.body.classList.add("lock");
+}
+function closeModal() {
+  modalBack.classList.remove("show");
+  document.body.classList.remove("lock");
+}
+
+document.getElementById("menuBtn").onclick = () => drawerBack.classList.add("show");
+document.getElementById("drawerClose").onclick = () => drawerBack.classList.remove("show");
+drawerBack.onclick = e => { if (e.target === drawerBack) drawerBack.classList.remove("show"); };
+document.getElementById("modalClose").onclick = closeModal;
+modalBack.onclick = e => { if (e.target === modalBack) closeModal(); };
+
+// Interactive Card Features
+const selectedCompare = new Set();
+const compareTray = document.getElementById("compareTray");
+const compareText = document.getElementById("compareText");
+
+document.addEventListener("click", e => {
+  const fav = e.target.closest(".card-fav");
+  if (fav) {
+    fav.classList.toggle("on");
+    fav.textContent = fav.classList.contains("on") ? "♥" : "♡";
+    showToast(fav.classList.contains("on") ? "Added to favorites!" : "Removed from favorites");
+  }
+  const quick = e.target.closest(".quick-view");
+  if (quick) {
+    openModal("Overview — " + quick.dataset.name, quick.dataset.desc + " Get personalized quotes and expert assistance instantly.");
+    return;
+  }
+  const buy = e.target.closest(".buy");
+  if (buy) {
+    openModal("Apply for — " + buy.dataset.name, "Fill out your contact info to proceed with your application for " + buy.dataset.name);
+  }
+});
+
+document.addEventListener("change", e => {
+  if (e.target.classList.contains("compare-checkbox")) {
+    const name = e.target.dataset.name;
+    if (e.target.checked) {
+      if (selectedCompare.size >= 3) {
+        e.target.checked = false;
+        showToast("You can compare up to 3 products at a time.");
+        return;
+      }
+      selectedCompare.add(name);
+    } else {
+      selectedCompare.delete(name);
+    }
+    if (selectedCompare.size > 0) {
+      compareTray.classList.add("show");
+      compareText.textContent = `${selectedCompare.size} product(s) selected for comparison`;
+    } else {
+      compareTray.classList.remove("show");
+    }
+  }
+});
+
+document.getElementById("compareAction").onclick = () => {
+  openModal("Product Comparison", `Comparing items: ${Array.from(selectedCompare).join(", ")}. Our specialists will review these for you.`);
+};
+
+// Filtering & Search
+document.querySelectorAll(".filter").forEach(btn => btn.onclick = () => {
+  document.querySelectorAll(".filter").forEach(x => x.classList.remove("on"));
+  btn.classList.add("on");
+  const f = btn.dataset.filter;
+  document.querySelectorAll(".card").forEach(c => c.style.display = (f === "all" || c.dataset.category === f) ? "flex" : "none");
+  drawerBack.classList.remove("show");
+});
+
+const search = document.getElementById("search");
+function doSearch() {
+  const q = search.value.trim().toLowerCase();
+  document.querySelectorAll(".card").forEach(c => c.style.display = (!q || c.dataset.name.includes(q)) ? "flex" : "none");
+}
+search.addEventListener("input", doSearch);
+document.getElementById("searchBtn").onclick = doSearch;
+
+document.querySelectorAll(".drawer-link").forEach(a => a.onclick = () => drawerBack.classList.remove("show"));
+document.getElementById("expert").onclick = () => openModal("Talk to an expert", "Our insurance specialists are ready to help you choose the best plan.");
+document.getElementById("chat").onclick = () => openModal("Live Assistant", "Hello! Let us know which product you would like assistance with.");
+
+document.getElementById("form").onsubmit = e => {
+  e.preventDefault();
+  closeModal();
+  showToast("Request submitted successfully! We will contact you soon.");
+  e.target.reset();
+};
+
+// Scroll Progress & Intersection Observer
+window.addEventListener("scroll", () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  document.getElementById("progress").style.width = (scrollY / Math.max(h, 1) * 100) + "%";
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll(".card, .section-head").forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
